@@ -19,4 +19,4 @@ module.exports = (config, apptime) => ({
       './client/index.js',
     ],
   },
-});
+})

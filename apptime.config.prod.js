@@ -12,8 +12,8 @@
 module.exports = (config, apptime) => ({
   ...config,
 
-  //// If you need to wrap your compiled pages in a redux store before render you
-  //// can use this option
+  // // If you need to wrap your compiled pages in a redux store before render you
+  // // can use this option
   //
   // ...apptime.ReactStaticPlugin({
   //   routes: './client/routes.js',
@@ -30,4 +30,4 @@ module.exports = (config, apptime) => ({
       './client/index.js',
     ],
   },
-});
+})

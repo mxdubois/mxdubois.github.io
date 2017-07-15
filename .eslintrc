@@ -1,0 +1,22 @@
+{
+  "parser": "babel-eslint",
+  "extends": [
+    'eslint-config-airbnb-base',
+    'eslint-config-airbnb-base/rules/strict',
+    'eslint-config-airbnb/rules/react',
+    "prettier",
+    "prettier/react"
+  ],
+  "plugins": [
+    "prettier"
+  ],
+  "rules": {
+    "prettier/prettier": ["error", {
+      "singleQuote": true,
+      "trailingComma": "all",
+      "semi": false,
+    }],
+    'react/jsx-filename-extension': ['off'],
+    'react/forbid-prop-types': ['off'],
+  }
+}
