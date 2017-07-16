@@ -3,68 +3,272 @@
 *
   box-sizing border-box
 
+html, body
+  display flex
+  align-items stretch
+  align-content stretch
+  flex-direction column
+  flex 1 1 auto
+
 body
-  background react-blue
+  background white
   font-family helvetica
   color darken(white, 10%)
   font-size 18px
 
-h1
-  margin 20px 0
+// Prefer unidirectional vertical margins (margin-botttom)
+p, h1, h2, h3, h4, h5, h6, ul, ol
+  margin-top 0
 
-pre
-  font-family mono
-  line-height 1.5
-  border-radius 3px
-  border 1px solid border-gray
+p
+  margin-bottom 12px
+  &:last-child
+    margin-bottom 0
 
-.page
-  padding 20px
-
-.siteTitle
-  display flex
-  align-items center
-
-  +below(420px)
-    display block
-
-  img
-    display inline-block
-    width 80px
-    height 80px
-    margin-right 20px
-
-    +below(420px)
-      display block
-      margin 0 auto
-
-.hl
-  font-weight bold
-  color react-blue
 .App
-  background black
+  display flex
+  flex 1 1 auto
+  flex-direction column
+  align-items stretch
+  align-content stretch
   min-width 320px
 
-  h1
-    color react-blue
-    font-weight 300
-    font-size 52px
+.Feed
+  display flex
+  flex-direction column
+  align-content stretch
+  align-items stretch
+  flex 1 1 auto
+
+  +above(960px)
+    flex-direction row
+
+.Feed__main
+  display flex
+  flex-direction column
+  flex 1 1 auto
+  align-items stretch
+
+.Feed__aside
+  order -1
+  flex: 0 0 auto
+
+  +above(960px)
+    width 320px
+
+.Feed__aside__content
+  border-bottom 1px solid rgba(black, .1)
+
+  +above(960px)
+    position fixed
+    top 0
+    bottom 0
+    left 0
+    width 320px
+    border-right 1px solid rgba(black, .1)
+    border-bottom none
+
+
+content-padding-sm = 16px
+content-padding-lg = 24px
+
+.About
+  padding 48px content-padding-lg
+
+  +above(480px)
+    padding 5%
+
+  +above(960px)
+    padding content-padding-lg
+    display flex
+    flex 0 0 auto
+    align-items stretch
+    align-content stretch
+    height 100vh
+  color #333
+
+.About__content
+  max-width 540px
+
+.About__profile
+  display flex
+  flex-direction column
+  margin-bottom 24px
+
+  +above(540px)
+    flex-direction row
+
+  +above(960px)
+    flex-direction column
+
+.About__profile__details
+  display flex
+  flex-direction column
+  justify-content center
+
+  text-align center
+
+  +above(540px)
+    padding-left 32px
+    text-align left
+
+  +above(960px)
+    padding-left 0
+
+.About__portrait
+  margin-bottom 18px
+
+  +above(540px)
+    margin-bottom 0
+
+  +above(960px)
+    margin-bottom 18px
+
+.About__portrait__img
+  display block
+  max-width 120px
+  border-radius 50%
+  margin 0 auto
+  // circular portrait creates an illusion that there is more top padding than
+  // bottom padding in the parent, so take away some space
+  margin-top -18px
+
+  +above(540px)
+    border-radius 12px
+    margin initial
+
+.About__name
+  font-size 32px
+  line-height 32px
+  margin-bottom 8px
+
+.About__lead
+  font-size 18px
+  line-height 24px
+  font-weight 300
+  letter-spacing 0.1ex
+
+.About__links
+  margin-bottom 24px
+
+  +above(960px)
+    padding 0 16px
+    background #f4f4f4
+    margin-left -1*content-padding-lg
+    margin-right -1*content-padding-lg
+
+.About__intro
+  &:not(:last-child)
+    margin-bottom 32px
+
+  +above(960px)
+    align-self flex-end
 
   p
-    color white
+    font-weight normal
+    font-size 16px
+    line-height 24px
 
-.nav
-  background darken(black, 10%)
-  padding-left 20px
+.About__summary
+  list-style none
+  padding 0
+  margin 0
+  text-align center
 
-  a
-    display inline-block
-    padding 20px
-    text-transform uppercase
-    text-decoration none
-    color darken(white, 20%)
-    &:hover
-      color white
+  +above(540px)
+    text-align left
 
-  .active
-    background black
+  &:not(:last-child)
+    margin-bottom 32px
+
+.About__summary__item
+  font-size 14px
+  margin-bottom 12px
+.About__summary__item__label
+  display block
+  font-weight bold
+  margin-bottom 4px
+.About__summary__item__value
+  display block
+
+.FeedSection
+  min-height 33vh
+  padding 5%
+
+.FeedSection__heading
+  font-size 32px
+  line-height 32px
+  margin-bottom 12px
+
+  +above(480px)
+    margin-bottom 24px
+    font-size 64px
+    line-height 64px
+
+.FeedSection__subheading
+  font-size 22px
+  line-height 24px
+  letter-spacing .05ex
+  font-weight 300
+
+.FeedSection__tldr
+  max-width 540px
+  font-size 18px
+  letter-spacing .15ex
+  line-height 24px
+  opacity .87
+
+
+.Links
+  display flex
+  list-style none
+  padding 0
+  margin 0
+
+  +above(960px)
+    justify-content: space-between
+
+.Links__item
+  display flex
+  flex-direction column
+  list-style none
+  text-align center
+
+  padding 0 24px
+
+  +below(540px)
+    flex 1 0 auto
+    padding 0 8px
+  +above(960px)
+    flex 1 0 auto
+    padding 0 8px
+
+  &:first-child
+    padding-left 0
+
+  &:last-child
+    padding-right 0
+
+.Links__item__link
+  flex 1 0 auto
+  display flex
+  flex-direction column
+  padding 16px 0
+
+  &, &:link, &:visited
+    color #555
+    text-decoration: none
+
+  &:hover, &:focus
+    color blue
+
+  &:active
+    color black
+
+.Links__item__icon
+  font-size 18px
+  margin-bottom 4px
+
+.Links__item__label
+  font-size 14px
+

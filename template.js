@@ -12,6 +12,10 @@ const Html = ({ title, body, manifest }) =>
         {title}
       </title>
       <link rel="stylesheet" href={manifest['app.css']} />
+      <link
+        rel="stylesheet"
+        href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
+      />
 
       {/* If you have a favicon file you can add by modifying the next line  */}
       {/* <link rel='shortcut icon' href={manifest['favicon.ico']} /> */}
