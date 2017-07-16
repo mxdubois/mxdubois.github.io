@@ -1,4 +1,4 @@
-# The personal website of Michael DuBois
+# mxdubois/website
 Hosted at [michaeldubois.me](michaeldubois.me)
 
 ## Usage
