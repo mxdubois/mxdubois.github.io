@@ -106,7 +106,6 @@ const sections = [
     props: {
       primaryColor: 'white',
       secondaryColor: 'black',
-      subtitle: 'Artwork from my spare time',
     },
   },
 ]
