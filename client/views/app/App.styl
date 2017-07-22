@@ -68,6 +68,102 @@ p
     border-right 1px solid rgba(black, .1)
     border-bottom none
 
+.FeedGallery
+  flex 0 0 auto
+  display flex
+  flex-direction row
+  &:not(:last-child)
+    margin-bottom 24px
+
+.FeedGallery--SIZE-LARGE
+  flex 1 1 auto
+
+.FeedGallery__item
+  display flex
+  flex 1 1 auto
+  flex-direction column
+  padding 0 8px
+  &:first-child
+    padding-left 0
+  &:last-child
+    padding-right 0
+
+.FeedGallery__item__caption
+  flex 0 0 auto
+  display flex
+  flex-direction column
+  align-items center
+  align-content center
+  justify-content center
+  height 64px
+  padding 12px
+  opacity .54
+  font-size 14px
+  line-height 16px
+
+
+.FeedGallery__item__natural
+.FeedGallery__item__crop
+  display flex
+  flex 1 1 auto
+  align-items center
+  align-content center
+  justify-content center
+
+
+.FeedGallery--SIZE-LARGE
+  .FeedGallery__item__natural
+    min-height 0
+    height 100%
+    .FeedGallery__item__img
+      flex 0 1 auto
+      min-height 0
+      max-height 100%
+      height auto
+      width auto
+
+
+.FeedGallery__item__crop
+.FeedGallery__item__img
+  max-width 100%
+  border-radius 3px
+
+.FeedGallery__item__crop
+  height 33vh
+.FeedGallery__item__img
+  max-height 33vh
+  // TODO consider a way to blow images up to ~ full screen
+
+.FeedGallery__item__crop
+  background-size cover
+  background-position center center
+  background-repeat no-repeat
+
+.FeedGallery--SIZE-MEDIUM
+  .FeedGallery__item__crop
+    height 50vh
+  .FeedGallery__item__img
+    max-height 50vh
+
+.FeedGallery--SIZE-LARGE
+  .FeedGallery__item__crop
+    height 66vh
+  .FeedGallery__item__img
+    max-height 66vh
+
+.FeedGallery--STYLE-SCROLL
+  overflow auto
+  overflow-x scroll
+  overflow-y hidden
+
+  .FeedGallery__content
+    flex 1 0 auto
+.FeedGallery__content
+  display flex
+  flex 1 1 auto
+  flex-direction row
+  align-items stretch
+  align-content stretch
 
 content-padding-sm = 16px
 content-padding-lg = 24px
@@ -192,8 +288,22 @@ content-padding-lg = 24px
   display block
 
 .FeedSection
+  display flex
+  flex-direction column
+  align-items stretch
+  align-content stretch
   min-height 33vh
-  padding 5%
+  padding 10% 5%
+  +above(960px)
+    padding 5%
+.FeedSection--SIZE-FULLSCREEN
+  height 100vh
+
+.FeedSection__header
+  &:not(:last-child)
+    margin-bottom 7vh
+    +above(960px)
+      margin-bottom 5vh
 
 .FeedSection__heading
   font-size 32px
@@ -260,10 +370,11 @@ content-padding-lg = 24px
     text-decoration: none
 
   &:hover, &:focus
-    color blue
+    color interactive
+    outline-color interactive
 
   &:active
-    color black
+    color darken(interactive, 30%)
 
 .Links__item__icon
   font-size 18px

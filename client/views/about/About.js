@@ -103,7 +103,7 @@ const About = () =>
 
       <div className={cx('About__intro')}>
         <p>
-          Over the past 10 years, I have designed and implemented UIs, lead
+          Over the past 10 years, I have designed and implemented UIs, lead the
           frontend architecture for a 10+ team, and developed algorithms that
           empower users to make better decisions.
         </p>
