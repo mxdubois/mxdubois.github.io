@@ -1,7 +1,7 @@
 {
-  "name": "react-static-boilerplate",
+  "name": "@mxdubois/website",
   "version": "3.1.2",
-  "description": "A boilerplate for building static sites with React and React Router",
+  "description": "The website of mxdubois",
   "repository": {
     "type": "git",
     "url": "https://github.com/iansinnott/react-static-boilerplate"
@@ -36,12 +36,19 @@
     "classnames": "^2.2.5",
     "font-awesome": "^4.7.0",
     "history": "^4.5.0",
+    "jsgif": "^1.0.2",
+    "lodash.debounce": "^4.0.8",
+    "memoizee": "^0.4.5",
     "normalize.css": "^5.0.0",
+    "position": "git://github.com/ubergrape/position.git#129e053a3ec018d74313476ab43f02ff83de1f5c",
     "prop-types": "^15.5.8",
     "ramda": "^0.24.1",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
-    "react-router": "^3.0.0"
+    "react-router": "^3.0.0",
+    "react-sticky": "^6.0.1",
+    "shallowequal": "^1.0.2",
+    "uuid": "^3.1.0"
   },
   "apptime": {
     "vendorLibs": [

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, IndexRoute } from 'react-router'
+import { Route, IndexRoute, Redirect } from 'react-router'
 
 import App from './views/app/App'
 import Feed from './views/feed/Feed'
@@ -23,7 +23,7 @@ const feedItemProps = {
 const routes = (
   <Route component={App}>
     <Route path="/" component={Feed}>
-      <IndexRoute title="App" components={{ main: Home, aside: undefined }} />
+      <IndexRoute title="App" components={feedItemProps} />
       {feedItems.map(item =>
         <Route
           key={item.key}
@@ -35,8 +35,8 @@ const routes = (
           }}
         />,
       )}
-      <IndexRoute title="App" components={{ main: Home, aside: undefined }} />
-      <Route path="about" components={{ main: Home, aside: About }} />
+      <IndexRoute title="App" components={feedItemProps} />
+      <Redirect from="about" to="/" />
     </Route>
     <Route path="*" title="404: Not Found" component={NotFound} />
   </Route>

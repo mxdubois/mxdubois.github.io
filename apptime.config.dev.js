@@ -19,4 +19,16 @@ module.exports = (config, apptime) => ({
       './client/index.js',
     ],
   },
+  module: {
+    ...config.module,
+    rules: [
+      ...config.module.rules,
+      {
+        test: /\.(mpg|ogg|ogv|mp4|webm)$/,
+        use: [
+          { loader: 'file-loader', options: { name: '[name].[ext]' } },
+        ],
+      }
+    ],
+  },
 })
