@@ -2,6 +2,8 @@ import React from 'react'
 import T from 'prop-types'
 import classnames from 'classnames/bind'
 
+import PositionContext from '../../lib/react-position/PositionContext'
+
 // Using CSS Modules so we assign the styles to a variable
 import s from './App.styl'
 
@@ -24,9 +26,11 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <div className={cx('App')}>
-        {this.props.children}
-      </div>
+      <PositionContext>
+        <div className={cx('App')}>
+          {this.props.children}
+        </div>
+      </PositionContext>
     )
   }
 }

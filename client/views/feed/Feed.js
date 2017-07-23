@@ -2,6 +2,11 @@ import R from 'ramda'
 import React from 'react'
 import T from 'prop-types'
 import classnames from 'classnames/bind'
+import { Sticky, StickyContainer } from 'react-sticky'
+
+import Position from '../../lib/react-position/Position'
+import ControlledGIF from '../../lib/ControlledGIF'
+import ControlledVideo from '../../lib/ControlledVideo'
 
 import madhoofAndWharvus from './MadhoofAndWharvus.png'
 import stampedPortrait from './StampPortrait.png'
@@ -15,6 +20,10 @@ import farmscapeInstall from './farmscapeInstall.png'
 import farmscapeHomepage from './farmscapeHomepage.jpg'
 
 import ytkBloodOrb from './ytkBloodOrb_smooth.gif'
+import ytkBloodOrbVideoMp4 from './ytkBloodOrb_smooth.mp4'
+import ytkBloodOrbVideoOgg from './ytkBloodOrb_smooth.ogg'
+import ytkBloodOrbVideoOgv from './ytkBloodOrb_smooth.ogv'
+import ytkBloodOrbVideoWebm from './ytkBloodOrb_smooth.webm'
 
 import claraBestMatchLoan from './claraBestMatchLoan__once.gif'
 
@@ -22,6 +31,20 @@ import claraBestMatchLoan from './claraBestMatchLoan__once.gif'
 import s from '../app/App.styl'
 
 const cx = classnames.bind(s)
+
+const containerInterpolator = R.memoize((containerKey, playheadKey) => {
+ return (positions) => {
+    const container = positions[containerKey]
+    const playhead = positions[playheadKey]
+
+    const start = container.top
+    const end = container.bottom - playhead.height
+
+    return {
+      progress: (playhead.top - start) / (end - start),
+    }
+  }
+})
 
 // TODO
 //
@@ -43,8 +66,128 @@ const cx = classnames.bind(s)
 // [ ] scroll-powered GIFs
 // [ ] SEO / social media optimization?
 
-const FeedGallery = ({ items, size = 'default', style = 'default' }) => {
+const ScrolledGIF = (props) => {
+  const {
+    containerKey,
+    playheadKey
+  } = props
+  // TODO add a loading indicator on ControlledGIF?
+  //   or use the looping GIF?
+  //   or a fixed image?
+  //   or fork libgif and add support for loading pre-parsed GIF data
+
+  return (
+    <Position
+      key={`${containerKey}:${playheadKey}`}
+      interpolate={containerInterpolator(containerKey, playheadKey)}
+    >{({ progress }) => (
+      !!props.sources ? (
+        <ControlledVideo
+          key={`${containerKey}:${playheadKey}`}
+          {...props}
+          progress={Math.min(1, Math.max(0, progress))}
+        />
+      ) : (
+        <ControlledGIF
+          key={`${containerKey}:${playheadKey}`}
+          {...props}
+          progress={Math.min(1, Math.max(0, progress))}
+        />
+      )
+    )}</Position>
+  )
+}
+
+const ScrollingSection = ({
+  positionKey,
+  viewports,
+  background,
+  children,
+}) => {
+  return (
+    <Position name={positionKey}>
+      <StickyContainer
+        style={{
+          height: `${viewports * 100}vh`,
+          background: background,
+        }}>
+        <Sticky>
+          {({ style }) => (
+            <Position name={`${positionKey}__content`}>
+              <div style={style}>{children}</div>
+            </Position>
+          )}
+        </Sticky>
+      </StickyContainer>
+    </Position>
+  )
+}
+
+const FeedGalleryItem = (item) => {
+  const itemMedia = item.size === 'natural' ? (
+    <div className={cx('FeedGallery__item__natural')}>
+      {
+        item.controlledGIF ? (
+          <ScrolledGIF
+            className={cx('FeedGallery__item__img')}
+            src={item.imageSrc}
+            sources={item.sources}
+            width={640}
+            containerKey={item.containerKey}
+            playheadKey={`${item.containerKey}__content`}
+          />
+        ) : (
+          <img
+            className={cx('FeedGallery__item__img')}
+            src={item.imageSrc}
+          />
+        )
+      }
+    </div>
+  ) : (
+    <div
+      className={cx('FeedGallery__item__crop')}
+      style={{
+        backgroundImage: `url(${item.imageSrc})`,
+        backgroundSize: item.size,
+      }}
+    />
+  )
+
+  const itemCaption = (
+    <div className={cx('FeedGallery__item__caption')}>
+      <div>
+        {item.caption}
+      </div>
+    </div>
+  )
+
+  return (
+    <div
+      key={item.imageSrc}
+      className={cx('FeedGallery__item')}
+      style={{ flexGrow: item.grow }}
+    >
+      {itemMedia}
+      {item.showCaptions && itemCaption}
+    </div>
+  )
+}
+
+
+const FeedGallery = ({ containerKey, items, size = 'default', style = 'default' }) => {
   const hasCaptions = R.any(R.has('caption'), items)
+
+  const renderedItems = items.map(item =>
+    <FeedGalleryItem
+      key={item.imageSrc}
+      containerKey={containerKey}
+      showCaptions={hasCaptions} {...item}
+    />
+   )
+
+  const interpolator = style === 'autoscroll' ?
+    containerInterpolator(containerKey, `${containerKey}__content`) : () => ({ progress: 0 })
 
   return (
     <div
@@ -54,36 +197,34 @@ const FeedGallery = ({ items, size = 'default', style = 'default' }) => {
         `FeedGallery--STYLE-${style.toUpperCase()}`,
       )}
     >
-      <div className={cx('FeedGallery__content')}>
-        {items.map(item =>
+      <Position
+        interpolate={interpolator}
+      >
+        {({ progress }) => (
           <div
-            key={item.imageSrc}
-            className={cx('FeedGallery__item')}
-            style={{ flexGrow: item.grow }}
+            style={{
+              display: 'flex',
+              flex: '1 1 0',
+              // Translate a layer the width of the container in the opposite
+              // direction to "subtract" the container width,
+              // so we only scroll to the right edge of content layer.
+              transform: `translate3d(${progress * 100}%, 0, 0)`,
+            }}
           >
-            {item.size === 'natural'
-              ? <div className={cx('FeedGallery__item__natural')}>
-                  <img
-                    className={cx('FeedGallery__item__img')}
-                    src={item.imageSrc}
-                  />
-                </div>
-              : <div
-                  className={cx('FeedGallery__item__crop')}
-                  style={{
-                    backgroundImage: `url(${item.imageSrc})`,
-                    backgroundSize: item.size,
-                  }}
-                />}
-            {hasCaptions &&
-              <div className={cx('FeedGallery__item__caption')}>
-                <div>
-                  {item.caption}
-                </div>
-              </div>}
-          </div>,
+            <div
+              className={cx('FeedGallery__content')}
+              style={{
+                // Translate content all the way to the left.
+                // See above, we'll translate the parent to the right
+                // so we don't slide it all the way off screen left.
+                transform: `translate3d(${-1 * progress * 100}%, 0, 0)`,
+              }}
+            >
+              {renderedItems}
+            </div>
+          </div>
         )}
-      </div>
+      </Position>
     </div>
   )
 }
@@ -150,6 +291,7 @@ const FeedSection = ({
     </header>
     {featuredItems &&
       <FeedGallery
+        containerKey={title}
         size={gallerySize}
         style={galleryStyle}
         items={featuredItems}
@@ -168,10 +310,41 @@ FeedSection.propTypes = {
   galleryStyle: FeedGallery.propTypes.style,
 }
 
+const ScrollableFeedSection = ({ viewports, ...rest }) => {
+  return !R.isNil(viewports) ? (
+    <ScrollingSection
+      positionKey={rest.title}
+      background={rest.primaryColor}
+      viewports={viewports}
+    >
+      <FeedSection size="fullscreen" {...rest} />
+    </ScrollingSection>
+  ) : <FeedSection {...rest} />
+}
+
+const featuredArtwork = [
+  {
+    imageSrc: madhoofAndWharvus,
+    caption: 'Concept art for a comics project',
+    size: 'natural',
+  },
+  {
+    imageSrc: stampedPortrait,
+    caption: 'Stamped self-portrait',
+    size: 'natural',
+  },
+  {
+    imageSrc: artworkYugioh,
+    caption:
+      "First photoshop project (2003), for a friend's RPG Maker game.",
+    size: 'natural',
+  },
+]
+
 const sections = [
   {
     key: 'clara',
-    component: FeedSection,
+    component: ScrollableFeedSection,
     props: {
       primaryColor: 'black',
       secondaryColor: 'white',
@@ -189,7 +362,7 @@ const sections = [
   },
   {
     key: 'agrisaurus',
-    component: FeedSection,
+    component: ScrollableFeedSection,
     props: {
       primaryColor: '#3c9ae4', // '#5396c8', // 'blue',
       secondaryColor: 'white',
@@ -211,7 +384,7 @@ const sections = [
   },
   {
     key: 'ytk',
-    component: FeedSection,
+    component: ScrollableFeedSection,
     props: {
       primaryColor: '#fffb77', // 'yellow',
       secondaryColor: '#ff3535', // 'red',
@@ -219,17 +392,38 @@ const sections = [
       tldr:
         'Adapted finished art into an interactive web comic, with animations driven by scrolling.',
       gallerySize: 'medium',
+      viewports: 3,
       featuredItems: [
         {
           imageSrc: ytkBloodOrb,
+          // TODO cleanup this experiment
+          //sources: [
+            //{
+              //src: ytkBloodOrbVideoOgg,
+              //type: 'video/ogg',
+            //},
+            //{
+              //src: ytkBloodOrbVideoOgv,
+              //type: 'video/ogv',
+            //},
+            //{
+              //src: ytkBloodOrbVideoMp4,
+              //type: 'video/mp4',
+            //},
+            //{
+              //src: ytkBloodOrbVideoWebm,
+              //type: 'video/webm',
+            //},
+          //],
           size: 'natural',
+          controlledGIF: true,
         },
       ],
     },
   },
   {
     key: 'farmscape',
-    component: FeedSection,
+    component: ScrollableFeedSection,
     props: {
       primaryColor: '#227a3c', // 'green',
       secondaryColor: 'white',
@@ -252,38 +446,21 @@ const sections = [
   },
   {
     key: 'artwork',
-    component: FeedSection,
+    component: ScrollableFeedSection,
     props: {
       primaryColor: 'white',
       secondaryColor: 'black',
       size: 'fullscreen',
       gallerySize: 'large',
-      galleryStyle: 'scroll',
-      featuredItems: [
-        {
-          imageSrc: madhoofAndWharvus,
-          caption: 'Concept art for a comics project',
-          size: 'natural',
-        },
-        {
-          imageSrc: stampedPortrait,
-          caption: 'Stamped self-portrait',
-          size: 'natural',
-        },
-        {
-          imageSrc: artworkYugioh,
-          caption:
-            "First photoshop project (2003), for a friend's RPG Maker game.",
-          size: 'natural',
-        },
-      ],
+      galleryStyle: 'autoscroll',
+      viewports: featuredArtwork.length * .8,
+      featuredItems: featuredArtwork,
     },
   },
 ]
 
 const Feed = props => {
   const { main, aside } = props
-  console.log(props)
 
   return (
     <div className={cx('Feed')}>
