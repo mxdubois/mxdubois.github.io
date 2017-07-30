@@ -65,6 +65,7 @@
     "start": "app-time start",
     "start:dashboard": "app-time start --dashboard",
     "prebuild": "rimraf build",
+    "deploy:github": "git subtree push --prefix build origin master",
     "build": "app-time build",
     "build:analyze": "app-time build --analyze",
     "eject": "app-time eject",
