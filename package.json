@@ -1,7 +1,7 @@
 {
-  "name": "react-static-boilerplate",
+  "name": "@mxdubois/website",
   "version": "3.1.2",
-  "description": "A boilerplate for building static sites with React and React Router",
+  "description": "The website of mxdubois",
   "repository": {
     "type": "git",
     "url": "https://github.com/iansinnott/react-static-boilerplate"
@@ -37,6 +37,7 @@
     "font-awesome": "^4.7.0",
     "history": "^4.5.0",
     "jsgif": "^1.0.2",
+    "lodash.debounce": "^4.0.8",
     "memoizee": "^0.4.5",
     "normalize.css": "^5.0.0",
     "position": "git://github.com/ubergrape/position.git#129e053a3ec018d74313476ab43f02ff83de1f5c",

@@ -19,11 +19,7 @@ import agrisaurusClustering from './agrisaurusClustering.png'
 import farmscapeInstall from './farmscapeInstall.png'
 import farmscapeHomepage from './farmscapeHomepage.jpg'
 
-import ytkBloodOrb from './ytkBloodOrb_smooth.gif'
-import ytkBloodOrbVideoMp4 from './ytkBloodOrb_smooth.mp4'
-import ytkBloodOrbVideoOgg from './ytkBloodOrb_smooth.ogg'
-import ytkBloodOrbVideoOgv from './ytkBloodOrb_smooth.ogv'
-import ytkBloodOrbVideoWebm from './ytkBloodOrb_smooth.webm'
+import ytkBloodOrb from './ytkBloodOrb_smooth_short_small.gif'
 
 import claraBestMatchLoan from './claraBestMatchLoan__once.gif'
 
@@ -35,10 +31,19 @@ const cx = classnames.bind(s)
 const containerInterpolator = R.memoize((containerKey, playheadKey) => {
  return (positions) => {
     const container = positions[containerKey]
-    const playhead = positions[playheadKey]
+    const playhead = positions[playheadKey] || positions.window
 
-    const start = container.top
-    const end = container.bottom - playhead.height
+    let start
+    let end
+    if (container && playhead) {
+      start = container.top
+      end = container.bottom - playhead.height
+    } else {
+      const self = positions.self
+      const viewport = positions.viewport
+      start = self.top - viewport.height
+      end = self.top // self.bottom
+    }
 
     return {
       progress: (playhead.top - start) / (end - start),
@@ -90,6 +95,13 @@ const ScrolledGIF = (props) => {
       ) : (
         <ControlledGIF
           key={`${containerKey}:${playheadKey}`}
+          breakpoints={{
+            0: 280,
+            380: 320,
+            540: 480,
+            780: 640,
+          }}
+          placeholder={props.src}
           {...props}
           progress={Math.min(1, Math.max(0, progress))}
         />
@@ -182,7 +194,8 @@ const FeedGallery = ({ containerKey, items, size = 'default', style = 'default' 
     <FeedGalleryItem
       key={item.imageSrc}
       containerKey={containerKey}
-      showCaptions={hasCaptions} {...item}
+      showCaptions={hasCaptions}
+      {...item}
     />
    )
 
@@ -350,7 +363,7 @@ const sections = [
       secondaryColor: 'white',
       subtitle: 'An intuitive home mortgage experience',
       tldr:
-        'Developing loan recommendation algorithms. Lead frontend re-architecture with react, redux and rxjs. Established an enjoyable frontend interview process.',
+        'Established frontend architecture with react, redux and rxjs. Vetted the frontend team. Developing loan recommendation algorithms.',
       gallerySize: 'medium',
       featuredItems: [
         {
@@ -392,29 +405,10 @@ const sections = [
       tldr:
         'Adapted finished art into an interactive web comic, with animations driven by scrolling.',
       gallerySize: 'medium',
-      viewports: 3,
+      viewports: 2,
       featuredItems: [
         {
           imageSrc: ytkBloodOrb,
-          // TODO cleanup this experiment
-          //sources: [
-            //{
-              //src: ytkBloodOrbVideoOgg,
-              //type: 'video/ogg',
-            //},
-            //{
-              //src: ytkBloodOrbVideoOgv,
-              //type: 'video/ogv',
-            //},
-            //{
-              //src: ytkBloodOrbVideoMp4,
-              //type: 'video/mp4',
-            //},
-            //{
-              //src: ytkBloodOrbVideoWebm,
-              //type: 'video/webm',
-            //},
-          //],
           size: 'natural',
           controlledGIF: true,
         },
