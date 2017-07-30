@@ -7,38 +7,19 @@ import About from './views/about/About'
 import Home from './views/home/Home'
 import NotFound from './views/not-found/NotFound'
 
-const feedItems = [
-  {
-    key: 'home',
-    component: Home,
-  },
-]
-
-const feedItemProps = {
-  main: Home,
-  aside: About,
-  items: feedItems,
-}
-
-const routes = (
-  <Route component={App}>
-    <Route path="/" component={Feed}>
-      <IndexRoute title="App" components={feedItemProps} />
-      {feedItems.map(item =>
-        <Route
-          key={item.key}
-          path={item.key}
-          components={{
-            ...feedItemProps,
-            activeKey: item.key,
-            activeComponent: item.component,
-          }}
-        />,
-      )}
-      <IndexRoute title="App" components={feedItemProps} />
+// NOTE: react-static-webpack-plugin requires the root Route to have a path
+export const routes = (
+  <Route path="/" component={App}>
+    <Route component={Feed}>
+      <IndexRoute title="Michael DuBois"
+        components={{
+          main: Home,
+          aside: About,
+        }}
+      />
       <Redirect from="about" to="/" />
     </Route>
-    <Route path="*" title="404: Not Found" component={NotFound} />
+    <Route path="*" title="Not Found - Michael DuBois" component={NotFound} />
   </Route>
 )
 
