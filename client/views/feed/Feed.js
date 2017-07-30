@@ -20,6 +20,7 @@ import farmscapeInstall from './farmscapeInstall.png'
 import farmscapeHomepage from './farmscapeHomepage.jpg'
 
 import ytkBloodOrb from './ytkBloodOrb_smooth_short_small.gif'
+import ytkBloodOrbStill from './ytkBloodOrb_still.jpg'
 
 import claraBestMatchLoan from './claraBestMatchLoan__once.gif'
 
@@ -101,7 +102,7 @@ const ScrolledGIF = (props) => {
             540: 480,
             780: 640,
           }}
-          placeholder={props.src}
+          placeholder={props.placeholder || props.src}
           {...props}
           progress={Math.min(1, Math.max(0, progress))}
         />
@@ -142,6 +143,7 @@ const FeedGalleryItem = (item) => {
         item.controlledGIF ? (
           <ScrolledGIF
             className={cx('FeedGallery__item__img')}
+            placeholder={item.placeholder}
             src={item.imageSrc}
             sources={item.sources}
             width={640}
@@ -303,12 +305,15 @@ const FeedSection = ({
         </p>}
     </header>
     {featuredItems &&
-      <FeedGallery
-        containerKey={title}
-        size={gallerySize}
-        style={galleryStyle}
-        items={featuredItems}
-      />}
+      <div className={cx('FeedSection__gallery')}>
+        <FeedGallery
+          containerKey={title}
+          size={gallerySize}
+          style={galleryStyle}
+          items={featuredItems}
+        />
+      </div>
+      }
   </section>
 
 FeedSection.propTypes = {
@@ -409,6 +414,7 @@ const sections = [
       featuredItems: [
         {
           imageSrc: ytkBloodOrb,
+          placeholder: ytkBloodOrbStill,
           size: 'natural',
           controlledGIF: true,
         },
@@ -447,7 +453,7 @@ const sections = [
       size: 'fullscreen',
       gallerySize: 'large',
       galleryStyle: 'autoscroll',
-      viewports: featuredArtwork.length * .8,
+      viewports: featuredArtwork.length * .9,
       featuredItems: featuredArtwork,
     },
   },

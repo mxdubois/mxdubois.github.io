@@ -72,6 +72,8 @@ p
   flex 0 0 auto
   display flex
   flex-direction row
+  padding-left 5%
+  padding-right 5%
   &:not(:last-child)
     margin-bottom 24px
 
@@ -155,6 +157,7 @@ p
   overflow auto
   overflow-x scroll
   overflow-y hidden
+  padding 0
 
   .FeedGallery__content
     flex 1 0 auto
@@ -164,6 +167,7 @@ p
 
   .FeedGallery__content
     flex 1 0 auto
+    padding: 0 10%
 
 .FeedGallery__content
   display flex
@@ -300,15 +304,17 @@ content-padding-lg = 24px
   align-items stretch
   align-content stretch
   min-height 33vh
-  padding 10% 5%
+  padding 10% 0
   +above(960px)
-    padding 5%
+    padding 5% 0
 .FeedSection--SIZE-FULLSCREEN
   height 100vh
 
 .FeedSection__header
   &:not(:last-child)
     margin-bottom 7vh
+    padding-left 5%
+    padding-right 5%
     +above(960px)
       margin-bottom 5vh
 
@@ -335,6 +341,10 @@ content-padding-lg = 24px
   line-height 24px
   opacity .87
 
+.FeedSection__gallery
+  flex 1 1 auto
+  display flex
+  flex-direction column
 
 .Links
   display flex
