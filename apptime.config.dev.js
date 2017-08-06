@@ -25,10 +25,8 @@ module.exports = (config, apptime) => ({
       ...config.module.rules,
       {
         test: /\.(mpg|ogg|ogv|mp4|webm)$/,
-        use: [
-          { loader: 'file-loader', options: { name: '[name].[ext]' } },
-        ],
-      }
+        use: [{ loader: 'file-loader', options: { name: '[name].[ext]' } }],
+      },
     ],
   },
 })

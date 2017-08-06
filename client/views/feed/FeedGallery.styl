@@ -1,0 +1,110 @@
+@require '../../lib/vars.styl'
+
+.FeedGallery
+  flex 0 0 auto
+  display flex
+  flex-direction row
+  padding-left 5%
+  padding-right 5%
+  &:not(:last-child)
+    margin-bottom 24px
+
+.FeedGallery--SIZE-LARGE
+  flex 1 1 auto
+
+.FeedGallery__item
+  display flex
+  flex 1 1 auto
+  flex-direction column
+  padding 0 8px
+  &:first-child
+    padding-left 0
+  &:last-child
+    padding-right 0
+
+.FeedGallery__item__caption
+  flex 0 0 auto
+  display flex
+  flex-direction column
+  align-items center
+  align-content center
+  justify-content center
+  height 64px
+  padding 12px
+  opacity .54
+  font-size 14px
+  line-height 16px
+
+
+.FeedGallery__item__natural
+.FeedGallery__item__crop
+  display flex
+  flex 1 1 auto
+  align-items center
+  align-content center
+  justify-content center
+
+
+.FeedGallery--SIZE-LARGE
+  .FeedGallery__item__natural
+    min-height 0
+    height 100%
+    .FeedGallery__item__img
+      flex 0 1 auto
+      min-height 0
+      max-height 100%
+      height auto
+      width auto
+
+
+.FeedGallery__item__crop
+.FeedGallery__item__img
+  max-width 100%
+  border-radius 3px
+  overflow hidden
+
+.FeedGallery__item__crop
+  height 33vh
+.FeedGallery__item__img
+  max-height 33vh
+  // TODO consider a way to blow images up to ~ full screen
+
+.FeedGallery__item__crop
+  background-size cover
+  background-position center center
+  background-repeat no-repeat
+
+.FeedGallery--SIZE-MEDIUM
+  .FeedGallery__item__crop
+    height 50vh
+  .FeedGallery__item__img
+    max-height 50vh
+
+.FeedGallery--SIZE-LARGE
+  .FeedGallery__item__crop
+    height 66vh
+  .FeedGallery__item__img
+    max-height 66vh
+
+.FeedGallery--STYLE-SCROLL
+  overflow auto
+  overflow-x scroll
+  overflow-y hidden
+  padding 0
+
+  .FeedGallery__content
+    flex 1 0 auto
+
+.FeedGallery--STYLE-AUTOSCROLL
+  overflow hidden
+
+  .FeedGallery__content
+    flex 1 0 auto
+    padding: 0 10%
+
+.FeedGallery__content
+  display flex
+  flex 1 1 auto
+  flex-direction row
+  align-items stretch
+  align-content stretch

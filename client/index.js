@@ -4,6 +4,7 @@ import { render } from 'react-dom'
 import { Router, browserHistory } from 'react-router'
 
 // Import your routes so that you can pass them to the <Router /> component
+// eslint-disable-next-line
 import routes from './routes'
 
 render(

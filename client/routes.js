@@ -8,10 +8,12 @@ import Home from './views/home/Home'
 import NotFound from './views/not-found/NotFound'
 
 // NOTE: react-static-webpack-plugin requires the root Route to have a path
+// eslint-disable-next-line
 export const routes = (
   <Route path="/" component={App}>
     <Route component={Feed}>
-      <IndexRoute title="Michael DuBois"
+      <IndexRoute
+        title="Michael DuBois"
         components={{
           main: Home,
           aside: About,
@@ -23,4 +25,5 @@ export const routes = (
   </Route>
 )
 
+// eslint-disable-next-line
 export default routes
