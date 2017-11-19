@@ -35,6 +35,9 @@ const containerInterpolator = R.memoize(
 
     return {
       progress: (playhead.top - start) / (end - start),
+      // TODO reconcile names/concepts here
+      galleryWidth: self.width,
+      galleryHeight: self.height,
     }
   },
 )

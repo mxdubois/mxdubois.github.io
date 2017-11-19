@@ -4,7 +4,9 @@ import T from 'prop-types'
 import classnames from 'classnames/bind'
 
 import Position from '../../lib/react-position/Position'
+import withRelativeDimensions from '../../lib/relative/withRelativeDimensions'
 import ScrolledGIF from './ScrolledGIF'
+import FeedImg from './FeedImg'
 import containerInterpolator from './containerInterpolator'
 
 // Using CSS Modules so we assign the styles to a variable
@@ -13,31 +15,46 @@ import s from './FeedGallery.styl'
 const cx = classnames.bind(s)
 
 const FeedGalleryItem = item => {
-  const itemMedia =
-    item.size === 'natural'
-      ? <div className={cx('FeedGallery__item__natural')}>
-          {item.controlledGIF
-            ? <ScrolledGIF
-                className={cx('FeedGallery__item__img')}
-                placeholder={item.placeholder}
-                src={item.imageSrc}
-                sources={item.sources}
-                width={640}
-                containerKey={item.containerKey}
-                playheadKey={`${item.containerKey}__content`}
-              />
-            : <img
-                className={cx('FeedGallery__item__img')}
-                src={item.imageSrc}
-              />}
-        </div>
-      : <div
-          className={cx('FeedGallery__item__crop')}
-          style={{
-            backgroundImage: `url(${item.imageSrc})`,
-            backgroundSize: item.size,
-          }}
+  let itemMedia
+  if (item.controlledGIF) {
+    itemMedia =
+      <div className={cx('FeedGallery__item__natural')}>
+        <ScrolledGIF
+          className={cx('FeedGallery__item__img')}
+          placeholder={item.placeholder}
+          src={item.imageSrc}
+          sources={item.sources}
+          width={640}
+          containerKey={item.containerKey}
+          playheadKey={`${item.containerKey}__content`}
         />
+      </div>
+  } else if (item.size === 'natural') {
+    itemMedia =
+      <FeedImg
+        className={cx('FeedGallery__item__natural')}
+        src={item.imageSrc}
+        maxWidth={item.maxWidth}
+        maxHeight={item.maxHeight}
+      />
+      /*
+      <div className={cx('FeedGallery__item__natural')}>
+        <img
+          className={cx('FeedGallery__item__img')}
+          src={item.imageSrc}
+        />
+      </div>
+      */
+  } else {
+    itemMedia =
+      <div
+        className={cx('FeedGallery__item__crop')}
+        style={{
+          backgroundImage: `url(${item.imageSrc})`,
+          backgroundSize: item.size,
+        }}
+      />
+  }
 
   const itemCaption = (
     <div className={cx('FeedGallery__item__caption')}>
@@ -67,15 +84,6 @@ const FeedGallery = ({
 }) => {
   const hasCaptions = R.any(R.has('caption'), items)
 
-  const renderedItems = items.map(item =>
-    <FeedGalleryItem
-      key={item.imageSrc}
-      containerKey={containerKey}
-      showCaptions={hasCaptions}
-      {...item}
-    />,
-  )
-
   const interpolator =
     style === 'autoscroll'
       ? containerInterpolator(containerKey, `${containerKey}__content`)
@@ -90,11 +98,12 @@ const FeedGallery = ({
       )}
     >
       <Position interpolate={interpolator}>
-        {({ progress }) =>
+        {({ progress, galleryHeight, galleryWidth }) =>
           <div
             style={{
               display: 'flex',
-              flex: '1 1 0',
+              flex: '1 1 auto',
+              //flexDirection: 'column',
               // Translate a layer the width of the container in the opposite
               // direction to "subtract" the container width,
               // so we only scroll to the right edge of content layer.
@@ -110,7 +119,16 @@ const FeedGallery = ({
                 transform: `translate3d(${-1 * progress * 100}%, 0, 0)`,
               }}
             >
-              {renderedItems}
+              {items.map(item => (
+                <FeedGalleryItem
+                  key={item.imageSrc}
+                  maxHeight={galleryHeight}
+                  maxWidth={0.8 * galleryWidth}
+                  containerKey={containerKey}
+                  showCaptions={hasCaptions}
+                  {...item}
+                />
+              ))}
             </div>
           </div>}
       </Position>

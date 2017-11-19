@@ -6,11 +6,18 @@
   flex-direction row
   padding-left 5%
   padding-right 5%
+  overflow: hidden
   &:not(:last-child)
     margin-bottom 24px
 
 .FeedGallery--SIZE-LARGE
+.FeedGallery--STYLE-AUTOSCROLL
   flex 1 1 auto
+  flex-direction column
+
+  .FeedGallery__content
+    flex 1 0 auto
+
 
 .FeedGallery__item
   display flex
@@ -23,8 +30,9 @@
     padding-right 0
 
 .FeedGallery__item__caption
-  flex 0 0 auto
   display flex
+  flex 1 1 auto
+  flex-wrap wrap
   flex-direction column
   align-items center
   align-content center
@@ -48,14 +56,18 @@
 .FeedGallery--SIZE-LARGE
   .FeedGallery__item__natural
     min-height 0
-    height 100%
+    /*height 100%*/
+    // align-items stretch
+
+    // TODO will have to solve this in JS.
+    //  Seems flexbox can't resolve this layout w/ correct image aspect ratio
     .FeedGallery__item__img
       flex 0 1 auto
       min-height 0
-      max-height 100%
+      min-width 0
+      /*max-height 100%*/
       height auto
       width auto
-
 
 .FeedGallery__item__crop
 .FeedGallery__item__img
@@ -99,8 +111,13 @@
   overflow hidden
 
   .FeedGallery__content
-    flex 1 0 auto
     padding: 0 10%
+
+  .FeedGallery__content
+    flex 1 0 auto
+
+  .FeedGallery__item
+    flex 1 0 auto
 
 .FeedGallery__content
   display flex
